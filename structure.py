@@ -64,6 +64,9 @@ def player_choice(username):
             break
         else:
             print("Invaild option")
+def hero_selection():
+    while True:
+        print("Choose the type of hero you want to be.")
 
 
 if __name__ == "__main__":
