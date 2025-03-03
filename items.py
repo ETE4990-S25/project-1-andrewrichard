@@ -9,4 +9,7 @@ class Item:
         self.bonus_magic=bonus_magic
         self.max_hp=max_hp
 
-
+def __str__(self):
+    return(f"{self.name}({self.slot})\n"
+           f"{self.description}\n"
+           f"Damage:{self.damage}, Defense:{self.bonus_defense}, Magic:{self.bonus_magic}, HP:{self.max_hp}") 
