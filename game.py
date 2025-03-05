@@ -22,10 +22,10 @@ def checkPath(chosenPath):
     if chosenPath == "1":
         print("You have to chosen to rise. Your Jouerny begins now. hero!\n")
         time.sleep(1)
-        print("\nstranger:Thank you brave Hero!. For your willness to help us in this endevor")
-        print("we will provide the land most sacred treasuer. Please follow me")
+        print("\nstranger:Thank you brave Hero!. For your willingness to help us in this endevor")
+        print("First, we need you to pick the type of hero u want to be. Please follow me")
         time.sleep(2)
-  
+        hero=hero_selection()
   
     elif chosenPath == "2":
         print("\nYou have chosen to fall. Darkness consumes the land...\n")
@@ -37,7 +37,30 @@ def checkPath(chosenPath):
 
 
     
-### having the user pick the weapons
+### added choose hero from old structure file 
+def hero_selection():
+        print("Choose the type of hero you want to be.")
+        heroes = {
+            "1": "Shield Hero",
+            "2":"Sword Hero", 
+            "3":"Spear Hero",
+            "4":"Bow Hero", 
+            "5": "Magic Hero"
+
+        }
+        for key, value in heroes.items():
+            print(f"[{key}]{value}")
+        while True:
+
+            choice = input ("Enter the number for the Hero you want to be (1-5):").strip()
+
+            if choice in heroes:
+                selected_hero = heroes[choice].split(" - ")[0]
+                print(f"you have chosen {selected_hero}. Goodluck on your journey to save us from the Waves")
+                return selected_hero
+
+            else:
+                print("invalid selection. Choose (1-5)")
 
     
 
