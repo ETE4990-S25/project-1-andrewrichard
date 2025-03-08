@@ -33,9 +33,9 @@ FirstItems={
 
     ],
 
-    "Magic Hero": [
-        Item("Magic Wand","Magical wand made from a witch", "Stronghand",3,0,0,0,5),
-        Item("Magic Elixir","Elixir that gives magic boost","Drink",0,0,1,10,0)
+    "Spear hero": [
+        Item("Long stone spear","Long spear made midrange attacks", "Stronghand",4,2,0,0,0),
+        Item("Wood Armor", "Armor made from the grand", "Body", 0,0,5,0,0)
 
     ]
 }
