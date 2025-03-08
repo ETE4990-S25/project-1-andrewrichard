@@ -13,3 +13,14 @@ def __str__(self):
     return(f"{self.name}({self.slot})\n"
            f"{self.description}\n"
            f"Damage:{self.damage}, Defense:{self.bonus_defense}, Magic:{self.bonus_magic}, HP:{self.max_hp}") 
+
+
+FirstItems={
+    "Shield Hero": [
+
+        Item("Wood Shield", "Shield made from the Grand Oak Tree" "Weakhand",0,0,10,0,0),
+        Item("Wood Armor", "Armor made from the grand" "Body", 0,0,5,0,0)
+    ]
+
+    "S"
+}
