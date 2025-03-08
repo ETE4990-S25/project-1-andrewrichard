@@ -18,9 +18,24 @@ def __str__(self):
 FirstItems={
     "Shield Hero": [
 
-        Item("Wood Shield", "Shield made from the Grand Oak Tree" "Weakhand",0,0,10,0,0),
-        Item("Wood Armor", "Armor made from the grand" "Body", 0,0,5,0,0)
-    ]
+        Item("Wood Shield", "Shield made from the Grand Oak Tree", "Weakhand",0,0,10,0,0),
+        Item("Wood Armor", "Armor made from the grand", "Body", 0,0,5,0,0)
+    ],
 
-    "S"
+    "Sword Hero":[ 
+        Item("Stone Sword", "Sword made from swordsmith from local village", "StrongHand",5,2,1,0,0),
+        Item("Leather Armor","Light Armor for better agility","body",0,0,2,0,0)
+    ],
+
+    "Bow Hero": [
+        Item("Hunter's Bow","Bow used from the village's most skilled hunters","Stronghand",5,2,0,0,0),
+        Item("Arrows","set of arrows for long range attacks","accessory",0,1,0,0,0, )
+
+    ],
+
+    "Magic Hero": [
+        Item("Magic Wand","Magical wand made from a witch", "Stronghand",3,0,0,0,5),
+        Item("Magic Elixir","Elixir that gives magic boost","Drink",0,0,1,10,0)
+
+    ]
 }
