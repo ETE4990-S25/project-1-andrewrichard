@@ -109,13 +109,10 @@ def hero_selection():
 
             else:
                 print_with_delay("invalid selection. Choose (1-4)")
+                print_with_delay("github test")
         
 
 
 main_Menue()
 chosen_path = choosePath()
 checkPath(chosen_path)
-
-
-
-
