@@ -1,7 +1,8 @@
 import time
 import json
 import os
- 
+from heroes import ShieldHero, SwordHero, BowHero, SpearHero 
+
 print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
 
 def print_with_delay(text, delay=0.05):
@@ -73,7 +74,12 @@ def checkPath(chosenPath):
         print_with_delay("\nstranger:Thank you brave Hero!. For your willingness to help us in this endevor")
         print_with_delay("First, we need you to pick the type of hero u want to be.\n")
 
-        return hero_selection()
+        player_hero= hero_selection()
+        print_with_delay("Your Journey begins now!\n Here are your starting stats and inventory")
+        player_hero.show_stats()
+        player_hero.show_inventory()
+
+        return player_hero
         
   
     elif chosenPath == "2":
@@ -105,14 +111,33 @@ def hero_selection():
                 selected_hero = heroes[choice]
                 print_with_delay(f"\nyou have chosen {selected_hero}.")
             
+            hero_name=input("Enter your Hero's name:").strip()
+            if not hero_name:
+                hero_name = "Hero"
             
-
+            if selected_hero=="Shield Hero":
+                return ShieldHero(hero_name)
+            elif selected_hero=="Sword Hero":
+                return SwordHero(hero_name)
+            elif selected_hero=="Spear Hero":
+                return SpearHero(hero_name)
+            elif selected_hero=="Bow Hero":
+                return BowHero(hero_name)
             else:
                 print_with_delay("invalid selection. Choose (1-4)")
-                print_with_delay("github test")
+            continue
+            
+            
+            print_with_delay("Your stats and Starting Inventory")
+            player_hero.show_stats()
+            player_hero.show_inventory()
+
+            return player_hero
+        else:
+            print_with_delay("invalid selection. Choose (1-4)")
         
 
 
 main_Menue()
 chosen_path = choosePath()
-checkPath(chosen_path)
+player_hero=checkPath(chosen_path)

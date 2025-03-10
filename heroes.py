@@ -7,10 +7,10 @@ class Heroes:
         self.health=health
         self.attack=attack
         self.defense=defense
-        self.inventory=FirstItems(hero_class,[])
+        self.inventory=FirstItems.get(hero_class,[])
 
     def show_stats(self):
-        print({self.name} the {self.hero_class})
+        print(f"{self.name} the {self.hero_class}")
         print(f"Health: {self.health}")
         print(f"Attack: {self.attack}")
         print(f"Defense: {self.defense}")

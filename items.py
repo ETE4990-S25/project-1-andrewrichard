@@ -19,7 +19,7 @@ FirstItems={
     "Shield Hero": [
 
         Item("Wood Shield", "Shield made from the Grand Oak Tree", "Weakhand",0,0,10,0,0),
-        Item("Wood Armor", "Armor made from the grand", "Body", 0,0,5,0,0)
+        Item("Wood Armor", "Armor made from the Grand Oak Tree", "Body", 0,0,5,0,0)
     ],
 
     "Sword Hero":[ 
@@ -35,7 +35,7 @@ FirstItems={
 
     "Spear hero": [
         Item("Long stone spear","Long spear made midrange attacks", "Stronghand",4,2,0,0,0),
-        Item("Wood Armor", "Armor made from the grand", "Body", 0,0,5,0,0)
+        Item("Wood Armor", "Armor made from the Grand Oak Tree", "Body", 0,0,5,0,0)
 
     ]
 }
