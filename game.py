@@ -1,5 +1,6 @@
 import time
 import json
+import os
  
 print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
 
@@ -27,8 +28,12 @@ def main_Menue():
 def start_game():
     display_dialogues(["world"])
 
+
 class Dialogue:
-     def __init__(self,dialogues_file =r"C:\Users\Owner\OneDrive\Documents\GitHub\project-1-andrewrichard\dialogues.json"):
+     def __init__(self,dialogues_file ="dialogues.json"):
+        if not os.path.exists(dialogues_file):
+            print(f"Error: '{dialogues_file}' not found. Ensure the file is in the correct directory.")
+            exit()
         try:
             with open(dialogues_file, "r", encoding="utf-8") as f:
                 self.dialogues = json.load(f)
