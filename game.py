@@ -1,13 +1,6 @@
 import time
 import json
-<<<<<<< HEAD
 from heroes import ShieldHero, SwordHero, SpearHero, BowHero
-=======
-import os
-from heroes import ShieldHero, SwordHero, BowHero, SpearHero 
-
-print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
->>>>>>> d6c3ad74f81b7f402b4718b2a6491df33c61cb9b
 
 print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
 #delay
@@ -17,34 +10,9 @@ def print_with_delay(text, delay=0.05):
         time.sleep(delay)
     print()
 
-<<<<<<< HEAD
 # insert dialogue   
-=======
-def main_Menue():
-     print("[1] Start")
-     print("[2] Quit")
-     
-     player_choice = input("\nEnter option: ")
-     actions = {
-         "1": "\nLoading Game ...",
-         "2": "\nExiting the game..."
-         }
-     print(actions.get(player_choice," Invalid option"))
-     if player_choice == "1":
-         start_game()
-     elif player_choice == "2":
-         return main_Menue()
-
-def start_game():
-    display_dialogues(["world"])
-
-
->>>>>>> d6c3ad74f81b7f402b4718b2a6491df33c61cb9b
 class Dialogue:
-     def __init__(self,dialogues_file ="dialogues.json"):
-        if not os.path.exists(dialogues_file):
-            print(f"Error: '{dialogues_file}' not found. Ensure the file is in the correct directory.")
-            exit()
+     def __init__(self,dialogues_file =r"C:\Users\Owner\OneDrive\Documents\GitHub\project-1-andrewrichard\dialogues.json"):
         try:
             with open(dialogues_file, "r", encoding="utf-8") as f:
                 self.dialogues = json.load(f)
@@ -100,17 +68,7 @@ def checkPath(chosenPath):
         print_with_delay("\nstranger:Thank you brave Hero!. For your willingness to help us in this endevor")
         print_with_delay("First, we need you to pick the type of hero you want to be.")
 
-<<<<<<< HEAD
         return hero_selection()
-=======
-        player_hero= hero_selection()
-        print_with_delay("Your Journey begins now!\n Here are your starting stats and inventory")
-        player_hero.show_stats()
-        player_hero.show_inventory()
-
-        return player_hero
-        
->>>>>>> d6c3ad74f81b7f402b4718b2a6491df33c61cb9b
   
     elif chosenPath == "2":
         print_with_delay("\nYou have chosen to fall. Darkness consumes the land...\n")
@@ -157,60 +115,20 @@ def hero_selection():
 def battle_waved(hero):
     number = 1
 
-<<<<<<< HEAD
     if not hasattr(hero, "coin"):
         hero.coins = 0
     while True:
         print_with_delay({f"wave {number}: Monsters apper!"})
         print_with_delay("You engage in battle and defaeat the monsters!")
-=======
-        }
-        for key, value in heroes.items():
-            print_with_delay(f"[{key}]{value}")
-
-        while True:
-
-            choice = input ("\nEnter the number for the Hero you want to be (1-4):").strip()
-
-            if choice in heroes:
-                selected_hero = heroes[choice]
-                print_with_delay(f"\nyou have chosen {selected_hero}.")
-            
-            hero_name=input("Enter your Hero's name:").strip()
-            if not hero_name:
-                hero_name = "Hero"
-            
-            if selected_hero=="Shield Hero":
-                return ShieldHero(hero_name)
-            elif selected_hero=="Sword Hero":
-                return SwordHero(hero_name)
-            elif selected_hero=="Spear Hero":
-                return SpearHero(hero_name)
-            elif selected_hero=="Bow Hero":
-                return BowHero(hero_name)
-            else:
-                print_with_delay("invalid selection. Choose (1-4)")
-            continue
-            
-            
-            print_with_delay("Your stats and Starting Inventory")
-            player_hero.show_stats()
-            player_hero.show_inventory()
-
-            return player_hero
-        else:
-            print_with_delay("invalid selection. Choose (1-4)")
->>>>>>> d6c3ad74f81b7f402b4718b2a6491df33c61cb9b
         
 
 def main_game():
     main_Menue()
     chosen_path = choosePath()
     checkPath(chosen_path)
- #it should  be displaying diallogue for the stranger but it is not 
+ #it should  be displaying dialogue for the stranger but it is not 
     display_dialogues(["Stranger"])
 
-<<<<<<< HEAD
     print_with_delay("\nThe ground trembels... A wav of enemies approches!")
     print_with_delay("You are instantly transported to the battelfield.\n")
 
@@ -221,8 +139,3 @@ def main():
 if __name__ == "__main__":
     main()
     
-=======
-main_Menue()
-chosen_path = choosePath()
-player_hero=checkPath(chosen_path)
->>>>>>> d6c3ad74f81b7f402b4718b2a6491df33c61cb9b
