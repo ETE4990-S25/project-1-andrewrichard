@@ -14,10 +14,28 @@
       "",
       "The question is… will you rise, or will you fall?"
   ],
-
-  "Shield": [
-    " A defensive powerhouse, the Shield Hero excels in protecting allies and absorbing damage.",
+  "Shield Hero": [
+    "A defensive powerhouse, the Shield Hero excels in protecting allies and absorbing damage.",
     "With a strong defense and the ability to block attacks, this hero is the ideal choice for players who prefer a supportive and resilient role in battle."
 
+  ],
+  "sword Hero": [
+    "A master of offense, the sword Hero deals powerful melee attacks.",
+    "Quick and deadly, this hero is perfect for players who love higher-damage combat."
+  ],
+  "Spear Hero": [
+    "A balanced Warropr with a long reach, the spear Hero can strick enemies form a distance.",
+    "A great choice for those who enhoy versatility and a mix of attack and defense. "
+  ],
+  "Bow Hero":[
+    "A rangeed speciality, the Bow Hero excels in long distance combat.",
+    "Iddeal for strategic players who prefer to fight from afar while avoiding direct confrontation"
+  ],
+  "Stranger": [
+    "Excellent choice!",
+    "But we have no time to celebrate your welcome.",
+    "You have a wave to defeat!",
+    "As soon as it starts, you'll be transported to where the wave has gone."
   ]
+
 }
