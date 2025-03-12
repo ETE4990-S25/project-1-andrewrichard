@@ -1,29 +1,36 @@
 from items import FirstItems
 
 class Heroes:
-    def __init__(self,name,hero_class,health,attack,defense):
+    def __init__(self,name,hero_class,health,attack,defense,):
         self.name = name
         self.hero_class =hero_class
         self.health=health
         self.attack=attack
         self.defense=defense
         self.inventory=FirstItems.get(hero_class,[])
+    
 
     def show_stats(self):
+        print("\n" + "=" *30)
         print(f"{self.name} the {self.hero_class}")
+        print("-" *30)
         print(f"Health: {self.health}")
         print(f"Attack: {self.attack}")
         print(f"Defense: {self.defense}")
+        print("=" * 40)
 
-    def show_inventory(self):
-        print("Inventory:")
-        for item in self.inventory:
-            print(f"{item.name}: {item.description}")
+        print(" Inventorty:".center(40))
+
+        total_slots = 5
+        items_list = [f"[{item.name}]" for item in self.inventory]
+        inventory_slots = " ".join(items_list + ["[Empty]"] * (total_slots - len(items_list)))
+        print(inventory_slots)
+
 
     
 class ShieldHero(Heroes):
     def __init__(self,name):
-        super().__init__(name, "Shield Hero",health=150,attack=5,defense=20)
+        super().__init__(name, "Shield Hero",health=150,attack=5,defense=20,)
 
 class SwordHero(Heroes):
     def __init__(self,name):
@@ -66,8 +73,6 @@ class Spider(Monster):
 class Ogre(Monster):
     def __init__(self):
         super().__init__(name=Ogre, health=50, attack=30,defense=15,reward=6)
-
-
 
 
 
