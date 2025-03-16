@@ -1,4 +1,4 @@
-from items import FirstItems
+
 
 class Heroes:
     def __init__(self,name,hero_class,health,attack,defense,):
@@ -42,4 +42,3 @@ class SpearHero(Heroes):
 class BowHero(Heroes):
     def __init__(self,name):
         super().__init__(name, "Bow Hero",health=100,attack=13,defense=5)
-
