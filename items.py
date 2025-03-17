@@ -1,44 +1,55 @@
-
-
-class Heroes:
-    def __init__(self,name,hero_class,health,attack,defense,):
+# items.py
+class Weapon:
+    def __init__(self, name, skills,damage, durability, upgrade_level =0):
         self.name = name
-        self.hero_class =hero_class
-        self.health=health
-        self.attack=attack
-        self.defense=defense
-        self.inventory=FirstItems.get(hero_class,[])
-    
+        self.skills = skills
+        self.damage = damage
+        self.durability = durability
+        self.upgrade_level = upgrade_level
+   
+    def __str__(self):
+        return f"""
+    ------------------------------
+    {self.name:<15}
+    ------------------------------
+    Damage: {self.damage}
+    Durability: {self.durability}
+    Upgrade Level: {self.upgrade_level}
+    Skills: {', '.join(self.skills)}
+    ------------------------------
+    """
 
-    def show_stats(self):
-        print("\n" + "=" *30)
-        print(f"{self.name} the {self.hero_class}")
-        print("-" *30)
-        print(f"Health: {self.health}")
-        print(f"Attack: {self.attack}")
-        print(f"Defense: {self.defense}")
-        print("=" * 40)
+# Default weapons for each hero type
+default_weapons = {
+    "Shield Hero": Weapon("Guardian Shield", ["Shield Bash", "Fortress Stance"], damage=5, durability=50,),
+    "Sword Hero": Weapon("Knight's Blade", ["Swift Slash", "Power Thrust"], damage=10, durability=40, ),
+    "Spear Hero": Weapon("Dragon Spear", ["Lance Charge", "Piercing Strike"], damage=12, durability=35,),
+    "Bow Hero": Weapon("Hunter's Bow", ["Longshot", "Rapid Fire"], damage=8, durability=30,)
+}
 
-        print(" Inventorty:".center(40))
+class Item:
+    def __init__(self, name, description, stackable =False, max_stack =10):
+        self. name =name
+        self.description = description
+        self.stackable = stackable
+        self.max_stack =max_stack
 
-        total_slots = 5
-        items_list = [f"[{item.name}]" for item in self.inventory]
-        inventory_slots = " ".join(items_list + ["[Empty]"] * (total_slots - len(items_list)))
-        print(inventory_slots)
+    def __str__(self):
+        return f"{self.name}: {self.description} (Stackable: {self.stackable}, Max Stack: {self.max_stack})"
 
-class ShieldHero(Heroes):
-    def __init__(self,name):
-        super().__init__(name, "Shield Hero",health=150,attack=5,defense=20,)
+healing_potion = Item("Healing Potion", "Restores 20 HP", stackable=True, max_stack =  5)
 
-class SwordHero(Heroes):
-    def __init__(self,name):
-        super().__init__(name, "Sword Hero",health=120,attack=15,defense=10)
+default_items = {
+    "healingPotion": healing_potion
+}
 
-
-class SpearHero(Heroes):
-    def __init__(self,name):
-        super().__init__(name, "Spear Hero",health=110,attack=20,defense=5)
-
-class BowHero(Heroes):
-    def __init__(self,name):
-        super().__init__(name, "Bow Hero",health=100,attack=13,defense=5)
+def use(self, hero):
+    if self.stackable and hero.inventory.count(self) > 0:
+        # Apply effects, e.g., healing for healing potions
+        print(f"{self.name} used by {hero.name}.")
+        # If it's a healing potion, restore HP
+        if self.name == "Healing Potion":
+            hero.hp += 20
+            hero.inventory.remove(self)
+    else:
+        print(f"Cannot use {self.name}.")
