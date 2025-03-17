@@ -7,15 +7,6 @@ class Weapon:
         self.durability = durability
         self.upgrade_level = upgrade_level
     
-    def upgrade(self):
-        if self.upgrade_level < 5:
-            self.upgrade_level+= 1
-            self.damage += 3 * self.upgrade_level
-            self.durability += 5 * self.upgrade_level
-            print(f"{self.name} has been upgraded to level {self.upgrade_level}")
-        else:
-            print(f"{self.name} is already at max level")
-    
     def __str__(self):
         return f"""
     ------------------------------
@@ -51,3 +42,14 @@ healing_potion = Item("Healing Potion", "Restores 20 HP", stackable=True, max_st
 default_items = {
     "healingPotion": healing_potion 
 }
+
+def use(self, hero):
+    if self.stackable and hero.inventory.count(self) > 0:
+        # Apply effects, e.g., healing for healing potions
+        print(f"{self.name} used by {hero.name}.")
+        # If it's a healing potion, restore HP
+        if self.name == "Healing Potion":
+            hero.hp += 20
+            hero.inventory.remove(self)
+    else:
+        print(f"Cannot use {self.name}.")

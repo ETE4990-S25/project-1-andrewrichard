@@ -7,7 +7,7 @@ from Enemies import DarkSpider
 from items import healing_potion
 
 print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
-#delay
+
 
 def print_with_delay(text, delay=0.05):
     for char in text:
@@ -305,14 +305,52 @@ def attack_action(hero, enemies):
 def defend_action(hero):
     print_with_delay(f"{hero} prepare to block an attack, reducing damage next turn.")
 
-def run_action(hero, enemies):
+def run_action(hero, enemies,):
     print_with_delay("You attempt to escape...")
     if hero.speed > enemies[0].speed:
         print_with_delay("You successfully escaped!")
         return  # End the combat if escape is successful
     else:
         print_with_delay("The enemies are too fast! You have to fight!")
+        first_victory()
 
+def first_victory(hero):
+    """
+    Handles the event when the player defeats the first monster.
+    """
+    print_with_delay("\nAs the monster falls, you hear a voice calling out to you.")
+    print_with_delay('"Thank you for defending our people!" says Rob Figure, stepping forward.')
+    print_with_delay('"Rest up before your next battle, hero."')
+
+    # Give the player a choice to return to the kingdom
+    choice = input("\nWould you like to return to the kingdom to rest? (yes/no): ").lower()
+    if choice == "yes":
+        return_to_kingdom(hero)  # The game saves inside this function
+
+    # Ask if they want to continue the story
+    continue_story = input("\nWould you like to continue with the story? (yes/no): ").lower()
+    if continue_story == "yes":
+        print_with_delay("\nCOMING SOON...\n")
+
+def return_to_kingdom(hero):
+    """
+    Handles the event when the player returns to the kingdom.
+    Rob Figure congratulates them, they rest, the game saves, and their health is restored.
+    """
+    print_with_delay("\nYou return to the kingdom, greeted by the cheers of the people.")
+    print_with_delay('"Congratulations, hero!" says Rob Figure. "Please, rest and recover your strength."')
+
+    # Restore hero's health (assuming `hero.health` exists)
+    hero.health = hero.max_health
+    print_with_delay("\nYou feel refreshed as your health is fully restored!")
+
+    # Save the game (only saves if the player chooses to rest)
+    save_game(hero)
+    print_with_delay("\nYour progress has been saved.")
+
+def save_game(hero):
+    """Simulates saving the game."""
+    print_with_delay(f"\nGame saved for {hero.name}.")
 
 if __name__ == "__main__":
     game_intro()  # Or whatever function starts your game
