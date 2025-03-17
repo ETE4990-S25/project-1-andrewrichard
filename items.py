@@ -1,39 +1,53 @@
-class Item:
-    def __init__(self,name,description,slot,damage,bonus_attack,bonus_defense, max_hp,bonus_magic):
-        self.name=name
-        self.description = description
-        self.slot=slot
+# items.py
+class Weapon:
+    def __init__(self, name, skills,damage, durability, upgrade_level =0):
+        self.name = name
+        self.skills = skills
         self.damage = damage
-        self.bonus_attack=bonus_attack
-        self.bonus_defense=bonus_defense
-        self.bonus_magic=bonus_magic
-        self.max_hp=max_hp
+        self.durability = durability
+        self.upgrade_level = upgrade_level
+    
+    def upgrade(self):
+        if self.upgrade_level < 5:
+            self.upgrade_level+= 1
+            self.damage += 3 * self.upgrade_level
+            self.durability += 5 * self.upgrade_level
+            print(f"{self.name} has been upgraded to level {self.upgrade_level}")
+        else:
+            print(f"{self.name} is already at max level")
+    
+    def __str__(self):
+        return f"""
+    ------------------------------
+    {self.name:<15}
+    ------------------------------
+    Damage: {self.damage}
+    Durability: {self.durability}
+    Upgrade Level: {self.upgrade_level}
+    Skills: {', '.join(self.skills)}
+    ------------------------------
+    """
 
-def __str__(self):
-    return(f"{self.name}({self.slot})\n"
-           f"{self.description}\n"
-           f"Damage:{self.damage}, Defense:{self.bonus_defense}, Magic:{self.bonus_magic}, HP:{self.max_hp}") 
+# Default weapons for each hero type
+default_weapons = {
+    "Shield Hero": Weapon("Guardian Shield", ["Shield Bash", "Fortress Stance"], damage=5, durability=50,),
+    "Sword Hero": Weapon("Knight's Blade", ["Swift Slash", "Power Thrust"], damage=10, durability=40, ),
+    "Spear Hero": Weapon("Dragon Spear", ["Lance Charge", "Piercing Strike"], damage=12, durability=35,),
+    "Bow Hero": Weapon("Hunter's Bow", ["Longshot", "Rapid Fire"], damage=8, durability=30,)
+}
 
+class Item: 
+    def __init__(self, name, description, stackable =False, max_stack =10):
+        self. name =name 
+        self.description = description
+        self.stackable = stackable 
+        self.max_stack =max_stack
 
-FirstItems={
-    "Shield Hero": [
+    def __str__(self):
+        return f"{self.name}: {self.description} (Stackable: {self.stackable}, Max Stack: {self.max_stack})"
 
-        Item("Wood Shield", "Shield made from the Grand Oak Tree", "Weakhand",0,0,10,0,0),
-        
-    ],
+healing_potion = Item("Healing Potion", "Restores 20 HP", stackable=True, max_stack =  5)
 
-    "Sword Hero":[ 
-        Item("Stone Sword", "Sword made from swordsmith from local village", "StrongHand",5,2,1,0,0),
-    ],
-
-    "Bow Hero": [
-        Item("Hunter's Bow","Bow used from the village's most skilled hunters","Stronghand",5,2,0,0,0),
-        Item("Arrows","set of arrows for long range attacks","accessory",0,1,0,0,0, )
-
-    ],
-
-    "Spear hero": [
-        Item("Long stone spear","Long spear made midrange attacks", "Stronghand",4,2,0,0,0),
-
-    ]
+default_items = {
+    "healingPotion": healing_potion 
 }

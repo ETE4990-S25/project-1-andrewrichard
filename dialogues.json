@@ -1,41 +1,84 @@
 {
   
-  "world": [
-      "\n─── The Beginning ───\n",
-      "No one remembers when the first crack appeared in the sky. Some called it a sign.",
-      "Others, a warning. But when the heavens split open, the world below shattered with them.",
-      "Cities crumbled overnight. From the fractures, *they* emerged—",
-      "monsters unlike anything we had ever known.",
-      "",
-      "The old world is gone. What remains is ruin, chaos…",
-      "and the struggle to survive.",
-      "",
-      "And you? You have been chosen to stand against the endless waves.",
-      "",
-      "The question is… will you rise, or will you fall?"
+ "game_intro": [
+  "\n─── A world Unknown ───\n",
+  "You were just living your ordinary life when suddenly—",
+  "The sky above **shattered**.",
+  "Darkness swallowed you whole, and you felt yourself falling… endlessly.",
+  "",
+  "When you awaken, you are **not home**.",
+  "A world unfamiliar stretches before you—ruined, burdened by a **great disaster**.",
+  "Figures surround you, clad in robes, chanting words you do not understand.",
+  "Then, a voice booms in your mind:",
+  "",
+  "**‘You have been chosen. The Waves will come. Stand, and fight... or all will be lost.’**"
+  
   ],
-  "Shield Hero": [
-    "A defensive powerhouse, the Shield Hero excels in protecting allies and absorbing damage.",
-    "With a strong defense and the ability to block attacks, this hero is the ideal choice for players who prefer a supportive and resilient role in battle."
 
+  "History": [
+
+  "Long ago, the world was prosperous and united, its people thriving under the rule of four great kingdoms.",
+  "Each kingdom was protected by a Legendary Hero, a warrior blessed with divine power to fight against the Waves—horrific calamities that brought forth monstrous creatures, threatening to consume everything.",
+  "",
+  "But as centuries passed, the heroes faded into legend, their names lost to time. Now, the Waves have returned, and with them, a prophecy:",
+  "",
+  "'When darkness looms once more, four champions shall rise—",
+  "Bound by fate, wielders of steel, unknowing saviors of the realm.",
+  "They shall be summoned from a distant world, bearing the arms of legends,",
+  "And in their hands, the fate of the kingdom shall rest.'",
+  "",
+  "And so, you were summoned, bound by destiny to take the mantle of one of these legendary warriors…"
   ],
-  "sword Hero": [
-    "A master of offense, the sword Hero deals powerful melee attacks.",
-    "Quick and deadly, this hero is perfect for players who love higher-damage combat."
+
+  "hero_awakening": [
+    "As your senses return, you feel a strange weight pressing against your arm.",
+    "You look down—clutched in your grasp is a weapon.",
+    "It feels natural, yet completely foreign.",
+    "Confusion fills your mind. What is this place? Why are you here?",
+    "You turn to the robed figures, demanding answers."
   ],
-  "Spear Hero": [
-    "A balanced Warropr with a long reach, the spear Hero can strick enemies form a distance.",
-    "A great choice for those who enhoy versatility and a mix of attack and defense. "
-  ],
-  "Bow Hero":[
-    "A rangeed speciality, the Bow Hero excels in long distance combat.",
-    "Iddeal for strategic players who prefer to fight from afar while avoiding direct confrontation"
-  ],
-  "Stranger": [
-    "Excellent choice!",
-    "But we have no time to celebrate your welcome.",
-    "You have a wave to defeat!",
-    "As soon as it starts, you'll be transported to where the wave has gone."
+
+
+"robed_explanation": [
+    "**Robed Figure:** 'You do not yet understand, do you?'",
+    "He steps forward, his voice calm yet firm.",
+    "",
+    "**Robed Figure:** 'You have been chosen as one of the Four Legendary Heroes.'",
+    "His words feel heavy, but they offer little clarity.",
+    "",
+    "**Robed Figure:** 'Each hero wields a sacred weapon: the Sword, the Spear, the Bow, or ######.'",
+    "Each weapon grants unique abilities, passed down through time. But they are more than mere tools of war—they are symbols, each carrying a legacy of the heroes before you.'",
+    "",
+    "**Robed Figure:** 'Now, chosen one, your fate is sealed. Which path shall you walk?'"
+    
+  ], 
+
+  "abandon_kindom": [
+    "**Narrator: ** 'You walk away, ignoring the desperate cries of the people...",
+    "You hear the faint echos of thier pleas, but you continue forwoward, underterred.",
+    "",
+    "**Narrator:** 'As the {hero_class}, you were thier last hope,yet you turned your back on them.",
+    "The weight of your decisiion is heacy, but your resoolve uis unwavering.",
+    "",
+    "**Narrator:** The sky darkens, and an eerir silence falls over the land.",
+    "The wind stirs uneasily as the world seems to hold its breath.",
+    "",
+    "**Narrator:** The monstes advance, unchalleged consuming everything in the path.",
+    "Their growls and roars fill the air, a reminder o fthe destruction you've ledft behind",
+    "",
+    "**Narrator:** In the annals of history, your name is recored not as a savior, but as a deserter.",
+    "The pages of histry turn cold, and your legacy fades into shadow",
+    "",
+    "**Narrator:** Your journey ends here..."
+
+
+
+
+
+
+
+
+
   ]
 
 }
