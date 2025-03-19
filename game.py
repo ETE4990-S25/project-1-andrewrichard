@@ -3,7 +3,7 @@ import json
 import os
 import random
 from heroes import ShieldHero, SwordHero, SpearHero, BowHero
-from Enemies import DarkSpider
+from Enemies import DarkSpider   
 from items import healing_potion
 
 print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
@@ -347,10 +347,7 @@ def return_to_kingdom(hero):
     # Save the game (only saves if the player chooses to rest)
     save_game(hero)
     print_with_delay("\nYour progress has been saved.")
-
-def save_game(hero):
-    """Simulates saving the game."""
-    print_with_delay(f"\nGame saved for {hero.name}.")
+    
 
 if __name__ == "__main__":
     game_intro()  # Or whatever function starts your game
