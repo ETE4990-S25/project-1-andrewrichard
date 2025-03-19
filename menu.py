@@ -1,36 +1,48 @@
 import time
+import os
+SAVE_FILE="savegame.json"
 
 def main_menu():
     while True:
         print("\n=====MAIN MENU=====")
-
-
-        print("[1] Start")
-        print("[2]Instructions")
-        print("[3] Quit")
-
+        
+        if os.path.exists(SAVE_FILE):
+            print("[1] Continue")
+            print("[2] New Game")
+        else:
+            print("[1] Start Game")
+            print("[2]Instructions")
+            print("[3] Quit")
+     
+    
         player_choice = input("\nEnter option: ")
-        actions = {
-            "1": "\nLoading Game ...",
-            "2": "\nOpening Instructions...",
-            "3": "\nExiting the game..."
 
-         }
+        if player_choice=="1" and os.path.exists(SAVE_FILE):
+            return "continue"
+        elif player_choice== "1":
+            return "new"
+        elif player_choice == "2" and os.path.exists(SAVE_FILE):
+            return "new"
+        elif player_choice == "3":
+            show_instructions()
+        elif player_choice == "4":
+            print("Exiting the Game...")
+            time.sleep(1)
+            exit()
+        else:
+            print("Invalid option. ENter 1,2,3,4")
 
-        print(actions.get(player_choice," Invalid option"))
+    
 
-        time.sleep(1)
-        if player_choice in ["1","2","3"]:
-            return player_choice
-        else: 
-            print("\n Invalid Option. Enter 1,2,or 3")
 
+    
 def show_instructions():
     print("\n=====INSTRUCTIONS=====")
-    print("You will be randomly assigned be a Hero ")
+    print("choose your hero and go on a journey ")
     print("Your choices will shape your journey in this world")
-    print("Fight waves of enemies and uncover the mysteries of this world.")
+    print("Fight a waves of enemies and uncover the mysteries of this world.")
     print("Make wise decisions or the kingdom will fall.")
+    print("You may save and continue progress anytime")
     input("Press Enter to return to the main menu...")
     
     

@@ -3,7 +3,7 @@ import json
 import os
 import random
 from heroes import ShieldHero, SwordHero, SpearHero, BowHero
-from Enemies import DarkSpider   
+from Enemies import DarkSpider
 from items import healing_potion
 
 print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
@@ -34,7 +34,7 @@ class Dialogue:
              for line in self.dialogues[dialogue_id]:
                  print_with_delay(line, 0.03)
 
-    
+   
 def game_intro():
     dialogue = Dialogue()
     dialogue.show_dialogue("game_intro")
@@ -46,7 +46,7 @@ def hero_awakening():
     print_with_delay("you grip the weapon tighter, felling its weight-heavy.")
     print("\n")
     dialogue.show_dialogue("robed_explanation")
-    
+   
     choose_hero()
 
 def choose_hero():
@@ -54,7 +54,7 @@ def choose_hero():
     print("\n1. Sword Hero - The fearless warrior, cutting dowmn enemies with raw strength.")
     print("2. Spear Hero - The swift sticker, delivering precise amnd devastating blows.")
     print("3. Bow Hero - The unseen hunter, eleimenting threats from afar.")
-    
+   
     hero_classes = {
 
 
@@ -83,7 +83,7 @@ def choose_hero():
             "A phantom in the shadoe the Bow hero eliminates threats befor they even realiz thier doom."
             "Silent, deadly, and alwasy unseen, they are unseen force that turn the tide of war"
             )
-            
+           
     }
     print("\n Previewing heroes...\n")
     for num, (HeroClass, Hero_title) in hero_classes.items():
@@ -99,10 +99,10 @@ def choose_hero():
             hero_name = input("\nWhat is your name, hero? ")
 
             hero =HeroClass(hero_name)
-            
+           
             print_with_delay(f"\nYou have aquired the **{hero.weapon.name}!**")
 
-            while True: 
+            while True:
                 command = input("Press 'I' to opnen yur inventoery or 'C' to continue: ").strip().lower()
                 if command == "i":
                     hero.open_inventory()
@@ -112,7 +112,7 @@ def choose_hero():
                 else:
                     print("Invalid input, Press 'I' fro inventory or 'c' to continue.")
             begin_journey(hero.hero_class,hero)
-            return hero 
+            return hero
  
         else:
             print_with_delay("\nInvalid choice. Pelase enter a number 1-3")
@@ -169,7 +169,7 @@ def stand_and_fight(hero_class,hero):
     print_with_delay("\nA sudden surge of light surrounds you, brightening erything in sight.")
     print_with_delay("you fell yoursself being pulled into another dimensio, and before you can react,")
     print_with_delay("You find yoursfel standing on vast , darkness battlefiled.")
-    
+   
     print_with_delay("\nTe ground shaes as montrous figuer emrge from the shadows")
     print_with_delay("You have been teleported to the dirst wave of battle!")
 
@@ -223,9 +223,9 @@ def use_skill_action(hero, enemies):
     print_with_delay(f"\nAvailable skills for {hero.name}:")
     for i, skill in enumerate(hero.skills, 1):
         print(f"[{i}] {skill}")
-    
+   
     skill_choice = input("Choose a skill: ")
-    
+   
     try:
         skill_index = int(skill_choice) - 1
         if 0 <= skill_index < len(hero.skills):
@@ -347,11 +347,9 @@ def return_to_kingdom(hero):
     # Save the game (only saves if the player chooses to rest)
     save_game(hero)
     print_with_delay("\nYour progress has been saved.")
-    
+
+def save_game(hero):
+    """Simulates saving the game."""
+    print_with_delay(f"\nGame saved for {hero.name}.")
 
 if __name__ == "__main__":
-    game_intro()  # Or whatever function starts your game
-
-
-
-

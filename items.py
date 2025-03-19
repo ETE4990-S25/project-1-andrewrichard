@@ -6,7 +6,7 @@ class Weapon:
         self.damage = damage
         self.durability = durability
         self.upgrade_level = upgrade_level
-    
+   
     def __str__(self):
         return f"""
     ------------------------------
@@ -27,11 +27,11 @@ default_weapons = {
     "Bow Hero": Weapon("Hunter's Bow", ["Longshot", "Rapid Fire"], damage=8, durability=30,)
 }
 
-class Item: 
+class Item:
     def __init__(self, name, description, stackable =False, max_stack =10):
-        self. name =name 
+        self. name =name
         self.description = description
-        self.stackable = stackable 
+        self.stackable = stackable
         self.max_stack =max_stack
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Item:
 healing_potion = Item("Healing Potion", "Restores 20 HP", stackable=True, max_stack =  5)
 
 default_items = {
-    "healingPotion": healing_potion 
+    "healingPotion": healing_potion
 }
 
 def use(self, hero):

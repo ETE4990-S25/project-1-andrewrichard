@@ -3,13 +3,13 @@ from items import default_weapons
 
 class Heroes:
     def __init__(self, name, hero_class, health, attack, defense, speed,trait, skills):
-        self.name = name 
+        self.name = name
         self.hero_class = hero_class
         self.health = health
         self.attack = attack 
         self.defense = defense
         self.speed = speed
-        self.level =1 
+        self.level =1
         self.xp =0
         self.trait = trait
         self.inventory  =[]
@@ -20,8 +20,8 @@ class Heroes:
         self.coins += amount
         print(f"{self.name} earned {amount} coins! Total coins: {self.coins}")
 
-    
-          
+   
+         
     def show_stats(self):
         stats_display = f"""
         -----------------------------------
@@ -45,7 +45,7 @@ class Heroes:
         for item in self.inventory:
             item_counts[item] = item_counts.get(item, 0) +1
 
-            
+           
         inventory_list = []
         for item, count in item_counts.items():
             item_details = f"{item.name} x{count}" if count > 1 else str(item)
@@ -61,7 +61,7 @@ class Heroes:
             for i in inventory_list:
                 print(f"[{i:<30} ]")
             print("-"* 35)  
-    
+   
     def add_item(self,item):
         self.inventory.append(item)
 
@@ -94,5 +94,5 @@ class BowHero(Heroes):
         super().__init__(name, "Bow Hero", 100, 13, 5, 14, "Deadeye: +12% accuracy", ["Quick Shot", "Snipe"])
         self.weapon = default_weapons["Bow Hero"]
         self.inventory.append(self.weapon.name)
-        
+       
 #
