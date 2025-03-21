@@ -352,6 +352,7 @@ def save_game(hero):
     """Simulates saving the game."""
     print_with_delay(f"\nGame saved for {hero.name}.")
     
+print("github test pt2")
 
 
 if __name__ == "__main__":
