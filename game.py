@@ -351,5 +351,8 @@ def return_to_kingdom(hero):
 def save_game(hero):
     """Simulates saving the game."""
     print_with_delay(f"\nGame saved for {hero.name}.")
+    
+
 
 if __name__ == "__main__":
+    game_intro()
