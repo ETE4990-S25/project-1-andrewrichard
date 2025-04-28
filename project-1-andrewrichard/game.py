@@ -15,13 +15,13 @@ SAVE_FILE = "savegame.json"
 def game_intro():
     print("welcome to Richard and Anderw RPG Game!. Hope you enjoy!\n")
     dialogue = story()
-    dialogue.show_dialogue("game_intr")
+    dialogue.show_dialogue("game_intro")
     hero_awakening()
 
 def hero_awakening():
     dialogue = story()
-    dialogue.show_dialogue("hero_awakenin")
-    dialogue.show_dialogue("robed_explanatio")
+    dialogue.show_dialogue("hero_awakening")
+    dialogue.show_dialogue("robed_explanation")
     selected_hero = choose_hero()
     player_decision(selected_hero)
 
