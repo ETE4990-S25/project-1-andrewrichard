@@ -1,0 +1,17 @@
+{
+    "Health_Potion": {
+        "type": "consumable",
+        "name": "Health Potion",
+        "effect": "restore_hp",
+        "amount": 50,
+        "credit": 10
+    },
+
+    "Mana_Flask": {
+        "type": "consumable",
+        "name": "Mana Potion",
+        "effect": "restore_mana",
+        "amount": 40,
+        "credit": 35
+    }
+}

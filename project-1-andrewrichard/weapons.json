@@ -1,0 +1,73 @@
+{
+    "Long Sword": {
+      "skills": [
+        {
+          "name": "Sword Slash",
+          "effect": "A heavy slash that deals full damage.",
+          "effect_type": "single_target",
+          "base_damage": 15
+        },
+        {
+          "name": "Blade Dance",
+          "effect": "Hits the enemy 3 times with 50 base damage each.",
+          "effect_type": "multi_hit",
+          "base_damage": 50,
+          "hits": 3
+        }
+      ]
+    },
+    "Pike": {
+      "skills": [
+        {
+          "name": "Spear Thrust",
+          "effect": "Deals damage to all enemies in a line.",
+          "effect_type": "aoe",
+          "base_damage": 30
+        },
+        {
+          "name": "Piercing Charge",
+          "effect": "Charges forward, damaging and stunning one enemy.",
+          "effect_type": "single_target",
+          "base_damage": 40,
+          "stun_duration": 2
+        }
+      ]
+    },
+    "Small Shield": {
+      "skills": [
+        {
+          "name": "Shield Bash",
+          "effect": "Bashes the enemy, dealing damage and stunning for 1 turn.",
+          "effect_type": "single_target",
+          "base_damage": 20,
+          "stun_duration": 1
+        },
+        {
+          "name": "Defensive Stance",
+          "effect": "Reduces incoming damage by 50% for 2 turns.",
+          "effect_type": "self_buff",
+          "buff_type": "defense_boost",
+          "duration": 2,
+          "reduction_percent": 50
+        }
+      ]
+    },
+    "Hunter Bow": {
+      "skills": [
+        {
+          "name": "Arrow Barrage",
+          "effect": "Shoots arrows at all enemies.",
+          "effect_type": "aoe",
+          "base_damage": 25
+        },
+        {
+          "name": "Snipe",
+          "effect": "Deals critical damage to a single enemy.",
+          "effect_type": "single_target",
+          "base_damage": 30,
+          "crit_multiplier": 1.5
+        }
+      ]
+    }
+  }
+  

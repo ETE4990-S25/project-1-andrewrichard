@@ -1,0 +1,77 @@
+{
+  "game_intro": [
+    "\n─── A world Unknown ───\n",
+    "You were just living your ordinary life when suddenly—",
+    "The sky above shattered.",
+    "Darkness swallowed you whole, and you felt yourself falling… endlessly.",
+    "",
+    "When you awaken, you are not home.",
+    "A figure in dark robe stand before, his voice was in a low, rhythmic chant",
+    "in a language you do not understand",
+    "",
+    "Then, a voice BOOMS in your mind:",
+    "You have been chosen. The Waves will come. Stand, and fight... or all will be lost."
+  ],
+
+  "hero_awakening": [
+    "Your consciousness stirs, pulling you from a void of nothingness.",
+    "The air around you is thick and heavy with an unfamiliar energy.",
+    "Slowly, you push yourself up, your senses returning.",
+    "",
+    "Strange figures in dark robes stand before you, their faces obscured by deep hoods.",
+    "",
+    "You: What are you? How did I get here?",
+    "",
+    "Your voice is hoarse as you demand answers, the words echoing in the stillness"
+  ],
+  "robed_explanation": [
+    "Robed Figure: You have awakened. Good.",
+    "His voice is steady, neither hostile nor welcoming.",
+    "",
+    "Robed Figure:'You have been summon to this world as one of the Four Legendary Heros.'",
+    "Robed Figure:'Each hero is destined to wield one of the sacred  weapons: the Sword, the Spear, the Bow or the Shield",
+    "",
+    "He gestures, and before you, four weapons appear- floating slightly above the ground",
+    "Each radiates a faint glow, pulsing with power.",
+    "",
+    "Robed Figure: 'Your path is your own to choose. The weapon you take will shape your destiny.'",
+    "Robed Figure: 'Step forward, and choose your weapon.'"
+  ],
+  "beginning": [
+    "The robed figure raises a hand, and the air around you ripples.",
+    "A strange force pulls at your body, and the chamber begins to fade.",
+    "The robed figure remains calm as their form begins to disolve into mist.",
+    "In the blink of an eye, they vanish leaving behind only the faintest trace of their presence.",
+    "",
+    "You feel yourself being pulled forward, as if reality itself is stretching and warping.",
+    "The sensation is brief, but overwhelming.",
+    "You feel weightless for a moment... and then-",
+    "",
+    "You land hard on uneven ground.",
+    "The chamber is gone. ruined battlefield stretches before you.",
+    "Broken weapons, shattered stone, and distant echoes of battle fill the air.",
+    "",
+    "A cold, biting wind cuts through the desolation, carrying the stench of smoke and something darker.",
+    "You've arrived. the fight is already underway. Your choice is clear"
+  ],
+  "run_away_story": [
+    "You manage to escape the battlefield, your heart racing as you flee.",
+    "You find a cave, collapsing inside to catch your breath and tend to your wounds.",
+    "After a moment, you assess your condition you're injured but alive.",
+    "The cave offers a brief rest from the battle outside, but you know you must return soon."
+  ],
+  "Game_ending": [
+    "\nYou look for more enemies to fight, but the battlefield is eerily quiet.",
+    "You take a moment to catch your breath, the adrenaline of battle still coursing through your veins.",
+    "As you scan the area for more enemies, you see the robed figure from before.",
+    "They look at you with happiness and relief. They Thank you for your bravery.",
+    "The Sky clears and the sun begins to shine once more",
+    "with the enemies defeated , you take a deep breath, feeling the tension in the air lift",
+    "The world around you seems to breathe easier now. But what lies ahead?",
+    "The journey is far from over. where will you go next?",
+    "To be continued......"
+
+  ]
+
+}
+ 
