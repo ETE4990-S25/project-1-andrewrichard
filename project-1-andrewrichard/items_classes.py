@@ -10,6 +10,9 @@ class Item:
     
     def __repr__(self):
         return f"Item(name={self.name}, type={self.type}, effect ={self.effect}, amount = {self.amount}, credit= {self.credit})"
+    
+    def clone(self):
+        return self.__class__(self.name, self.effect, self.amount, self.credit)
 
 class consumable(Item):
     def __init__(self, name, effect, amount, credit):
@@ -25,13 +28,16 @@ class consumable(Item):
         if self.effect == "restore_mana":
             hero.mana = min(hero.mana + self.amount, hero.max_mana)
             print(f"{hero.name} restored {self.amount} Mana! ({hero.mana}/{hero.max_mana})")
-
+   
 class useable(Item):
     def __init__(self, name, effect, amount,  credit):
         super().__init__(name, "useable", effect, amount, credit)
 
     def use(self):
         print(f"{self.name} used. Effect: {self.effect}")
+    
+   
+
 
 def load_items():
      with open("items.json") as f:
