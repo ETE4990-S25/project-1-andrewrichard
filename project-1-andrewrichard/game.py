@@ -36,7 +36,7 @@ hero_classes = {
     }
 
 def choose_hero():
-    
+   
     current_choice = 1
 
     print("You take a deep breath, stepping closer to the weapons befor you.")
@@ -66,13 +66,13 @@ def choose_hero():
             os.system('cls' if os.name =='nt' else 'clear')
             break
         else:
-            print("Invailid Input.Please press (L), (R), or (Enter)")
-            continue 
+            print("Invalid Input.Please press (L), (R), or (Enter)")
+            continue
 
     print("The moment your hand touches the weapon, the world around you shudders.")
     print(f"As the {selected_hero.hero_class}, you feel the weight of responsibility settle on your shoulders.")
     print("\nThe robed figure nods solemnly and speaks:")
-    
+   
     if selected_hero.hero_class == "Sword":
         print("'The Sword Hero... A symbol of courage and strength. The path ahead will be perilous, but your blade shall cleave through all who stand in your way.'")
     elif selected_hero.hero_class == "Spear":
@@ -102,15 +102,17 @@ def player_decision(selected_hero):
             print("You carefully scan the area, searching through the wreckage for anything useful.")
             print("among the debris, you find a **health Potion\n")
             selected_hero.add_item_to_inventory(game_items["Health_Potion"])
-      
+     
             print("\nThese may be useful later")
+            time.sleep(1)
 
             if random.random() > 0.7:
                 print("Lucky find! you discover a shimmering **Mana Flask** nestled under boken stone.")
                 selected_hero.add_item_to_inventory(game_items["Mana_Flask"])
             print("\nBecause you took time to search , monsters noticed your presence")
             print("You're ambushed and forced into a battle with multiple enemies!")
-            enemy_count = 3
+            enemy_count = 2
+            time.sleep(1)
             break
         elif choice =="2":
             print("You steel yourself and press foward. The sounds of battle grows louder.")
@@ -118,8 +120,9 @@ def player_decision(selected_hero):
             print("More figures appear monsters, eye gleaming, surrounding you!")
             print("\nBecause of your bold approach, you are caught off guard and ambushed!")
             enemy_count = 2
+            time.sleep(1)
             break
-          
+         
 
         elif choice =="3":
             print("You hold your ground, watchcing for movement.")
@@ -127,23 +130,24 @@ def player_decision(selected_hero):
             print("You stay low, watching the shifting debris, waiting for the right moment to react.")
             print("Your cautious stance pays off. You're less likely to get ambushed in upcoming encounters.")
             selected_hero.alert = True
-            enemy_count = 1
-    
+            enemy_count = 2
+            time.sleep(1)
+   
             break
         else:
             choice = input("please enter a vaild option (1,2,3): ")
-    
+   
     time.sleep(2)
     print("\n...The air grows heavy. You hear the snarls of beast closing in.")
-    time.sleep(1.5)
+    time.sleep(2)
     print("Weapons ready....")
-    time.sleep(1)
+    time.sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
     battle(selected_hero, enemy_count, all_enemies)
 
 def battle(selected_hero, enemy_count, all_enemies, wave=1):
     enemy_blueprints = load_enemy()
-    
+
     chosen_names = random.choices(list(enemy_blueprints.keys()), k=enemy_count)
     enemies = []
     for nm in chosen_names:
@@ -155,20 +159,20 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
                 attack=proto.attack,
                 defense=proto.defense,
                 speed=proto.speed,
-                traits=dict(proto.traits),    
+                traits=dict(proto.traits),
                 level=proto.level,
-                loot_table=list(proto.loot_table)  
+                loot_table=list(proto.loot_table)
             )
         )
-   
+
     print(f"\nYou encounter {enemy_count} enemies:")
-    
+
     for enemy in enemies:
         print(f"{enemy.name} appears!")
         print(f"Health: {enemy.health} | Attack: {enemy.attack}| Defense: {enemy.defense} | Speed: {enemy.speed}")
         time.sleep(1)
 
-    combatants = [selected_hero] + enemies
+    combatants = [selected_hero] + [e for e in enemies if e.health > 0]
     combatants.sort(key=lambda x: x.speed, reverse=True)
 
     while selected_hero.health > 0 and any(e.health > 0 for e in enemies):
@@ -176,8 +180,17 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
             if fighter.health <= 0:
                 continue
 
+            if "stun" in fighter.status_effects:
+                print(f">> {fighter.name} is stunned and their turn is SKIPPED.")
+                fighter.status_effects["stun"]["duration"] -= 1
+                if fighter.status_effects["stun"]["duration"] <= 0:
+                    del fighter.status_effects["stun"]
+                continue
+
             if fighter == selected_hero:
-                print(f"\n{fighter.name} turn!")
+                if hasattr(fighter, "apply_status_effects"):
+                    fighter.apply_status_effects(damage=None)
+                print(f"\n----{fighter.name} turn!---")
                 time.sleep(1)
 
                 for i, e in enumerate(enemies):
@@ -200,7 +213,7 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
                 print("3. Run Away")
                 action_choice = input("Choose an action (1, 2, or 3): ")
                 time.sleep(1)
-                
+
                 if action_choice == "1":
                     print("\nAvailable skills:")
                     for i, skill in enumerate(fighter.weapon.skills, start=1):
@@ -212,11 +225,6 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
                     except (ValueError, IndexError):
                         print("Invalid skill.")
                         continue
-
-                    damage = selected_hero.attack  # Base damage
-
-                    # Apply status effects (both player and target)
-                    damage = selected_hero.apply_status_effects(target, damage)
 
                     if chosen_skill.effect_type == "aoe":
                         selected_hero.use_skill(
@@ -230,75 +238,77 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
                         )
 
                 elif action_choice == "2":
-                    consumables = [item for item in fighter.inventory if item.type == "consumable"]
+                    consumables = [(index, item) for index, item in enumerate(fighter.inventory) if item.type == "consumable"]
+
                     if not consumables:
                         print("You have no usable items!")
                         continue
-                    
-                    print("\nYour Inventory:")
-                    fighter.view_inventory()
-                    time.sleep(1)
+
+                    print("\n---- INVENTORY ----")
+                    for idx, (inv_index, item) in enumerate(consumables, start=1):
+                        print(f"{idx}. {item.name}")
+                    print("-------------------")
 
                     try:
                         item_choice = int(input("Choose an item to use (number): ")) - 1
-                        selected_item = consumables[item_choice]
-                        selected_item.use(fighter) 
-                        fighter.inventory.remove(selected_item)
-                        print(f"{selected_item.name} used!")
+                        if item_choice < 0 or item_choice >= len(consumables):
+                            raise IndexError
+        
+                        item_index, selected_item = consumables[item_choice]
+                        selected_item.use(fighter)
+                        del fighter.inventory[item_index]
+                        print(f"{selected_item.name} is used.")
                     except (ValueError, IndexError):
-                        print("Invalid item choice. Turn skipped.")
+                        print("Cant use this item. Turn skipped.")
                         continue
-                
+
                 elif action_choice == "3":
                     print("Attempting to run away...")
                     if random.random() < 0.5:
                         print("You successfully ran away from the battle!")
-                        return run_away_story(selected_hero, all_enemies)
+                        return run_away_story(selected_hero)
                     else:
                         print("You failed to escape! The battle continues.")
                         continue
-                else: 
+                else:
                     print("Invalid action. Turn skipped.")
+                    pass
+
+            elif fighter in enemies:
+                print(f"\n--- {fighter.name}'s Turn ---")
+                damage = fighter.attack_target(selected_hero)
+
+                if damage is None:
+                    print(f"Error: damage calculation for {fighter.name} failed.")
                     continue
-            else:
-                print(f"\nEnemies's turn")
-                time.sleep(1)
+                
+                if selected_hero.health <= 0:
+                    print(f"{selected_hero.name} has been defeated!")
+                    break
 
-                for enemy in enemies:
-                    if enemy.health <= 0:
-                        continue
 
-                fighter.apply_status_effects(target=selected_hero, damage=fighter.attack)
-                fighter.attack_target(selected_hero)
-
-        
-                print("\nEnemies turn:")
-                time.sleep(1)
-
-                enemy.apply_status_effects(target=selected_hero, damage=enemy.attack)
-                enemy.attack_target(selected_hero)
 
     if all(e.health <= 0 for e in enemies):
-        print("\nYou are Victorious")   
+        print("\nYou are Victorious")  
 
-        xp_gained = sum(enemy.calulate_xp(selected_hero.level) for enemy in enemies)
+        xp_gained = sum(enemy.calculate_xp(selected_hero.level) for enemy in enemies)
         selected_hero.xp += xp_gained
         print(f"You earn {xp_gained} XP!")
 
         while selected_hero.xp >= selected_hero.level * 100:
             selected_hero.level_up()
-        
+       
         loot = []
         for enemy in enemies:
             loot.extend(enemy.drop_loot())
-        
+       
         if loot:
             print("\nYou found the following loot:")
             time.sleep(1)
             for item in loot:
                 print(f"-{item}")
                 selected_hero.inventory.append(Item(name=item, item_type ="loot"))
-        
+       
         while True:
             print("\nwhat will you do next?")
             print("1. Search the area for more loot.")
@@ -312,18 +322,18 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
                 print("\nYou scour the battlefield for anything useful…")
                 time.sleep(1)
                 if random.random() < 0.5:
-                    selected_hero.add_item_to_inventory(game_items["Health_Potion"])
-                
+                    selected_hero.add_item_to_inventory(game_items["Health_Potion"].clone())
+               
                     print("You found a Health Potion.")
                 else:
                     print("Sorry, theres nothing here.")
-                continue 
+                continue
 
             elif next_choice == "2":
-            
-                if wave < 3:
-                    
-                    print("\nYou ready yorself and prepare for another wave enemies to defeat…")
+           
+                if wave < 2:
+                   
+                    print("\nYou ready yourself and prepare for another wave enemies to defeat…")
                     time.sleep(1)
                     return battle(selected_hero, enemy_count, all_enemies, wave+1)
                 else:
@@ -359,8 +369,8 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
                 continue
             else:
                 print("Invalid choice. Please enter 1–4.")
-                continue   
-        
+                continue  
+       
     if selected_hero.health <= 0:
         print(f"{selected_hero.name} has been defeated...")
         time.sleep(2)
@@ -400,38 +410,44 @@ def battle(selected_hero, enemy_count, all_enemies, wave=1):
             sys.exit()
 
 def run_away_story(selected_hero):
-    selected_hero.health = min(selected_hero.max_health, selected_hero.health +20)
-    print(f"\n{selected_hero.name} health is now{selected_hero.health}/{selected_hero.max_health}.\n")
+    print("\nYou retreat from battle, catching your breath. luckily you found a cave to rest.")
     time.sleep(1)
 
-    print("\nYou look around the cave, wondering what to do next.")
-    print("1. Rest and recover more before returning to the battlefield.")
-    print("2. Head back to the battlefield now, determined to face the next wave.")
-    
-    choice = input("What will you do next? (1 or 2): ")
-    
-    if choice == "1":
-        print("\nYou decide to take some extra time to rest, gathering your strength before facing the next wave.")
-        selected_hero.health = min(selected_hero.max_health, selected_hero.health + 30) 
-        print(f"\n{selected_hero.name}'s health is now {selected_hero.health}/{selected_hero.max_health}.")
-        return "resting" 
-    
-    elif choice == "2":
-        print("\nYou steel yourself and decide it's time to face the next wave of enemies.")
-        time.sleep(2)
-        print("\nYou gather your weapons and exit the cave, stepping back onto the battlefield with renewed determination.")
-        return battle(selected_hero, enemy_count=3, all_enemies=all_enemies)  
+    while True:
+        if selected_hero.health >= selected_hero.max_health:
+            print(f"\n{selected_hero.name} is fully healed and is read to fight")
+            time.sleep(1)
+            print("\n You gather your weapons and exit the cave, stepping back onto the battlefield with renewed dermination.")
+            return battle(selected_hero, enemy_count=2, all_enemies=all_enemies)  
 
-    else:
-        print("Invalid choice. You decide to rest a little longer, allowing your body to recover further.")
-        time.sleep(1)
-        return "resting"
+        print("\nYou look around the cave, wondering what to do next.")
+        print("1. Rest and recover more before returning to the battlefield.")
+        print("2. Head back to the battlefield now, determined to face the next wave.")
+   
+        choice = input("What will you do next? (1 or 2): ")
+   
+        if choice == "1":
+            print("\nYou decide to take some extra time to rest, gathering your strength before facing the next wave.")
+            selected_hero.health = min(selected_hero.max_health, selected_hero.health + 20)
+            print(f"\n{selected_hero.name}'s health is now {selected_hero.health}/{selected_hero.max_health}.")
+            time.sleep(1)
+   
+        elif choice == "2":
+            print("\nYou steel yourself and decide it's time to face the next wave of enemies.")
+            time.sleep(2)
+            print("\nYou gather your weapons and exit the cave, stepping back onto the battlefield with renewed determination.")
+            return battle(selected_hero, enemy_count=2, all_enemies=all_enemies)  
+
+        else:
+            print("Invalid choice. You decide to rest a little longer, allowing your body to recover further.")
+            time.sleep(1)
+            return "resting"
 
 if __name__ == "__main__":
     choice = main_menu()
     if choice == "new":
         game_intro()
-        
+       
     elif choice == "continue":
 
         print("Loading your saved game...)")
