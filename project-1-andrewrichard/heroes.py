@@ -1,140 +1,167 @@
-from base_weapon import load_weapon
-import time
-
-weapons = load_weapon()
+from base_weapon import load_weapons,Weapon
 
 class Player:
-    def __init__(self, name, health, attack, defense, speed, trait, weapon):
+    def __init__(self, name, health, speed, weapon_name, defense=0):  
+   
         self.name = name
-        self.hero_class = name 
-        self.trait = trait
-        self.weapon = weapon
         self.health = health
         self.max_health = health
-        self.attack = attack
-        self.defense = defense
         self.speed = speed
         self.status_effects = {}
-        self.xp = 0
         self.level = 1
+        self.xp = 0
         self.inventory = []
+        self.defense = defense  
+        self._defense_boost = 0
+        self._defense_boost_duration = 0
         self.alert = False
-        self.mana = 0
-        self.max_mana = 100
-    
-    def attack_target(self, target):
-        damage = self.attack
-        print(f"{self.name} attacks {target.name} for {damage} damage!.")
-        target.take_damage(damage)
-        time.sleep(1)
+
+        self.weapon = load_weapons().get(weapon_name)  # Load weapons and get the specific one
+        if self.weapon is None:  # Handle the case where the weapon_name is invalid
+            print(f"Warning: Weapon '{weapon_name}' not found!  Defaulting to no weapon.")
+            self.weapon = Weapon(name="Unarmed", damage=0)  # Ensure it's a Weapon object
+            self.attack = 0
+        else:
+            self.attack = self.weapon.base_damage  # Initialize attack based on the weapon's damage
 
     def take_damage(self, damage):
-        if damage is None:
-            damage = 0
+        incoming_damage = damage
+        if self._defense_boost_duration > 0:
+            incoming_damage = int(damage * (1 - self._defense_boost / 100))
+            print(f"{self.name} reduces incoming damage by {self._defense_boost}%!")
 
-        damage = self.apply_status_effects(damage)      
-        
-        self.health -= damage
-        if self.health < 0:
-            self.health = 0
+        total_damage = max(0, incoming_damage - self.defense)  # Apply defense here
+        self.health -= total_damage
 
-    
-    def apply_status_effects(self, damage):
-        if damage is None:
-            return 0
-        to_remove = []
-        
-        for effect, details in self.status_effects.items():
-            if details["duration"] > 0:
-               
-                if effect == "Poison":
-                    poison_damage = details['damage_per_turn']
-                    print(f"{self.name} suffers {poison_damage} poison damage!")
-                    damage += poison_damage
-        
-                elif effect == "defense_boost":
-                    reduction = damage * (details["reduction_percent"] / 100)
-                    damage -= reduction 
-                    print(f"{self.name}'s defense boosts damage reduction by {reduction}%.")
-                    print(f"{self.name} takes {damage} damage! ({self.health}/{self.max_health} HP left)")
+        print(f"{self.name} takes {total_damage} damage. Remaining HP: {self.health}/{self.max_health}")
 
-                details["duration"] -= 1
-                if details["duration"] <= 0:
-                    print(f"{self.name} is no longer affected by {effect}.")
+        if self.health <= 0:
+            print(f"{self.name} has been defeated!")
+
+    def use_weapon_skill(self, skill_name, enemy=None, enemies=None):
+        """Uses a weapon skill."""
+        self.weapon.use_skill(skill_name, player=self, enemy=enemy, enemies=enemies)
+
+    def handle_status_effects(self):
+        """Processes status effects like poison and defense boosts."""
+
+        # Track if any effects printed, to insert spacing after
+        printed_effects = False
+
+        # Handle poison
+        if "poison" in self.status_effects:
+            poison = self.status_effects["poison"]
+            damage = poison["damage_per_turn"]
+            print(f"{self.name} is suffering from poison.")
+            self.health-=(damage)
+            poison["duration"] -= 1
+            if poison["duration"] <= 0:
+                print(f"{self.name} has recovered from the poison.")
+                del self.status_effects["poison"]
+            printed_effects = True
+
+        # Handle defense boost
+        if "defense_boost" in self.status_effects:
+            buff = self.status_effects["defense_boost"]
+            percent = buff.get("reduction_percent", 0)
+            turns_left = buff.get("duration", 0)
+
+            if turns_left > 0:
+                self._defense_boost = percent
+                self._defense_boost_duration = turns_left
+                self.status_effects["defense_boost"]["duration"] -= 1
+                print(f"{self.name}'s defense is boosted by {percent}% for {turns_left} more turn.")
             else:
-                to_remove.append(effect)
+                self._defense_boost = 0
+                self._defense_boost_duration = 0
+                del self.status_effects["defense_boost"]
+                print(f"{self.name}'s defense boost has wore off.")
+            printed_effects = True
 
-        for effect in to_remove:
-            del self.status_effects[effect]
-        return damage
-    
+        if printed_effects:
+            print()  # Add an empty line before the action menu
+
+
+    def gain_xp(self, amount):
+        self.xp += amount
+        if self.xp >= 100:
+            self.level_up()
+
+    def level_up(self):
+        """Levels up the player."""
+        self.level += 1
+        self.xp = 0  # Reset XP
+        self.max_health += 10  # Example stat increase
+        self.health = self.max_health  # heal on level up
+        self.speed += 5  # Example stat increase
+        self.defense += 2  # Example defense increase
+        print(f"{self.name} leveled up! Now at level {self.level}.")
+
     def display_status(self):
-        skill_names = [skill.name for skill in self.weapon.skills]
+        if self.weapon:
+            skill_names = [skill.name for skill in self.weapon.skills]
+            weapon_name = self.weapon.name
+        else:
+            skill_names = []
+            weapon_name = "None"
         print(f"""
         -----------------------------------
-                {self.hero_class} - LV. {self.level}
+              {self.name} - LV. {self.level}
         -----------------------------------
-        Health: {self.health:<5}    
-        Attack: {self.attack:<5}
-        Defense: {self.defense:<5}  
+        Health: {self.health:<5}/{self.max_health:<5}
         Speed: {self.speed:<5}
-        Level: {self.level:<5}      
+        Level: {self.level:<5}
         XP: {self.xp:<5}
+        Defense: {self.defense:<5}
         -----------------------------------
-        Trait: {self.trait}
+        Weapon: {weapon_name}
         Skills: {', '.join(skill_names)}
         -----------------------------------
         """)
+
     def add_item_to_inventory(self, item):
         self.inventory.append(item)
         print(f"- Added {item.name} to your inventory.")
 
-    def remove_item_from_inventory(self, item):
-        if item in self.inventory:
-            self.inventory.remove(item)
-            print(f"- Removed {item.name} from your inventory.")
-        else:
-            print(f"- {item.name} is not in your inventory.")
-
     def view_inventory(self):
+
         print("\n---- INVENTORY ----")
         if not self.inventory:
             print("[EMPTY]")
         else:
             for i, item in enumerate(self.inventory, 1):
-                desc = item.effect["description"] if hasattr(item, "effect") and isinstance(item.effect, dict) and "description" in item.effect else ""
-                print(f"{i}. {item.name} {f'- {desc}' if desc else ''}")
+                print(f"{i}. {item.name} - {item.effect['description']}")
         print("-------------------")
 
-    def level_up(self):
-        self.level += 1
-        self.xp -= self.level * 100
-        self.health += 120
-        self.attack += 2
-        self.defense += 2
-        self.speed += 1
-        print(f"{self.name} leveled up! New stats — Health: {self.health}, Attack: {self.attack}, Defense: {self.defense}, Speed: {self.speed}")
-
-    def use_skill(self, skill_name, target=None, enemies=None):
-        if enemies:
-            self.weapon.use_skill(skill_name, user=self, target=enemies)
+    def use_item(self, index):
+        """Uses an item from the inventory."""
+        if 0 <= index < len(self.inventory):
+            item = self.inventory[index]
+            if hasattr(item, 'use') and callable(getattr(item, 'use')):  # generic check
+                if item.use(self):
+                    item.amount -= 1
+                    if item.amount <= 0:
+                        self.inventory.pop(index)
+                    return True
+            print(f"{item.name} can't be used.")
         else:
-            self.weapon.use_skill(skill_name, user=self, target=target)
+            print("Invalid item selection.")
+        return False
 
 
 # Hero Classes
 class Shield(Player):
-    def __init__(self, name="Shield Hero"):
-        super().__init__(name, 160, 40, 200, 50, "Tanker - High defense, low attack", weapon=weapons["Small Shield"])
+    def __init__(self, weapon_name="Small Shield"):
+        super().__init__("Shield Hero", 160, 50, weapon_name, defense=20)  # High defense
 
 class Sword(Player):
-    def __init__(self, name="Sword Hero"):
-        super().__init__(name, 120, 100, 100, 75, "Balanced - High offense, moderate defense", weapon=weapons["Long Sword"])
+    def __init__(self, weapon_name="Long Sword"):
+        super().__init__("Sword Hero", 120, 75, weapon_name, defense=10)  # Balanced defense
 
 class Spear(Player):
-    def __init__(self, name="Spear Hero"):
-        super().__init__(name, 130, 75, 120, 70, "Agile - Moderate offense, high speed", weapon=weapons["Pike"])
+    def __init__(self, weapon_name="Pike"):
+        super().__init__("Spear Hero", 130, 60, weapon_name, defense=15)  # Medium defense
 
 class Bow(Player):
-    def __init__(self, name="Bow Hero"):
-        super().__init__(name, 120, 80, 50, 100, "Ranged - High critical chance, low defense", weapon=weapons["Hunter Bow"])
+    def __init__(self, weapon_name="Hunter Bow"):
+        super().__init__("Bow Hero", 100, 100, weapon_name, defense=5)  # Low defense
