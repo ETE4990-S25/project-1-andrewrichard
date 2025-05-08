@@ -1,75 +1,77 @@
-import json 
+import json
 
 class Item:
-    def __init__(self, name, item_type, effect =None, amount= None, credit = None):
-        self. name= name
-        self.type = item_type
-        self.effect = effect
-        self.amount = amount 
+    def __init__(self, name, item_type, effect=None, amount=None, credit=None, description=None):
+        self.name = name
+        self.item_type = item_type # Ensure this matches the attribute name used elsewhere if any
+        self.effect = effect if effect else {"type": "none", "description": "No special effect."}
+        self.amount = amount if amount is not None else 1 # Default amount for non-stacking or loot
         self.credit = credit
-    
+        self.description = description if description else "An item of interest."
+
     def __repr__(self):
-        return f"Item(name={self.name}, type={self.type}, effect ={self.effect}, amount = {self.amount}, credit= {self.credit})"
-    
-    def clone(self):
-        return self.__class__(self.name, self.effect, self.amount, self.credit)
+        return (f"Item(name='{self.name}', type='{self.item_type}', effect='{self.effect.get('type', 'N/A')}', "
+                f"amount={self.amount}, description='{self.description}')")
 
-class consumable(Item):
-    def __init__(self, name, effect, amount, credit):
-        super().__init__(name,"consumable", effect,amount, credit)
+class Consumable(Item):
+    def __init__(self, name, effect, amount, credit, description=""):
+        super().__init__(name, "consumable", effect, amount, credit, description)
 
-    def use(self, hero):
-        if self.effect == "restore_hp":
-            old_hp = hero.health
-            hero.health = min(hero.health + self.amount, hero.max_health)
-            healed=hero.health - old_hp
-            print(f"{hero.name} restored {self.amount} hp ({hero.health}/{hero.max_health})")
+    def use(self, player):
+        if self.effect and self.effect.get('type') == 'restore hp':
+            print(f"{player.name} uses {self.name}. {self.effect.get('description', 'It has a healing effect.')}")
+            player.health += self.amount
+            if player.health > player.max_health:
+                player.health = player.max_health
+            print(f"{player.name} now has {player.health}/{player.max_health} HP.")
 
-        if self.effect == "restore_mana":
-            hero.mana = min(hero.mana + self.amount, hero.max_mana)
-            print(f"{hero.name} restored {self.amount} Mana! ({hero.mana}/{hero.max_mana})")
-   
-class useable(Item):
-    def __init__(self, name, effect, amount,  credit):
-        super().__init__(name, "useable", effect, amount, credit)
+            return True # Indicates successful use
+        print(f"{self.name} cannot be used at this time or has no defined effect for {player.name}.")
+        return False
 
-    def use(self):
-        print(f"{self.name} used. Effect: {self.effect}")
-    
-   
+class LootItem(Item):
+    def __init__(self, name, credit, description=""):
+        super().__init__(name, "loot", effect={"type": "none", "description": "A valuable item."}, amount=1, credit=credit, description=description)
 
+def load_items(filepath="items.json"): # Added filepath parameter
+    """Loads items from a JSON file."""
+    items_data = {}
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            for item_name_key, item_details in data.items():
+                item_type = item_details.get("type", "loot") # Default to loot if type not specified
+                if item_type == "consumable":
+                    item = Consumable(
+                        name=item_details.get("name", item_name_key),
+                        effect=item_details.get("effect"),
+                        amount=item_details.get("amount"),
+                        credit=item_details.get("credit"),
+                        description=item_details.get("description", "")
+                    )
+                    items_data[item_name_key] = item
+                elif item_type == "loot":
+                    item = LootItem(
+                        name=item_details.get("name", item_name_key),
+                        credit=item_details.get("credit"),
+                        description=item_details.get("description", "")
+                    )
+                    items_data[item_name_key] = item
+                else: # Generic item for other types
+                    item = Item(
+                        name=item_details.get("name", item_name_key),
+                        item_type=item_type,
+                        effect=item_details.get("effect"),
+                        amount=item_details.get("amount"),
+                        credit=item_details.get("credit"),
+                        description=item_details.get("description", "")
+                    )
+                    items_data[item_name_key] = item
+    except FileNotFoundError:
+        print(f"Error: Items file '{filepath}' not found. No items loaded.")
+    except json.JSONDecodeError:
+        print(f"Error: Could not decode JSON from '{filepath}'. Invalid format.")
+    except Exception as e:
+        print(f"An unexpected error occurred while loading items: {e}")
+    return items_data
 
-def load_items():
-     with open("items.json") as f:
-         data = json.load(f)
-         
-     items = {}
-     
-     for item_key, item_data in data.items():
-         if item_data["type"] == "consumable":
-             items[item_key] = consumable(
-                name=item_data["name"],
-                effect=item_data["effect"],
-                amount=item_data["amount"],
-                credit=item_data["credit"]
-            )
-         elif item_data["type"] == "useable":
-            items[item_key] = useable(
-                name=item_data["name"],
-                effect=item_data["effect"],
-                amount=item_data["amount"],
-                credit=item_data["credit"]
-            )
-         else:
-            items[item_key] = Item(
-                name=item_data["name"],
-                item_type=item_data["type"],
-                effect=item_data.get("effect", ""),
-                amount=item_data.get("amount", 0),
-                credit=item_data.get("credit", 0)
-            )
-
-     return items
-                     
-                            
-           
