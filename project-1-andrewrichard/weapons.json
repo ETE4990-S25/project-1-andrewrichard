@@ -1,0 +1,94 @@
+{
+  "Long Sword": {
+    "type": "weapon",
+    "base_damage": 25,
+    "skills": [
+      {
+        "name": "Sword Slash",
+        "effect_type": "single_target",
+        "damage_value": 40,
+        "crit_multiplier": 3,
+        "status_effects": {}
+      },
+      {
+        "name": "Blade Dance",
+        "effect_type": "multi_hit",
+        "damage_value": 50,
+        "hits": 3,
+        "status_effects": {}
+      }
+    ]
+  },
+  "Pike": {
+    "type": "weapon",
+    "base_damage": 20,
+    "skills": [
+      {
+        "name": "Spear Thrust",
+        "effect_type": "aoe",
+        "damage_value": 30,
+        "status_effects": {}
+      },
+      {
+        "name": "Piercing Charge",
+        "effect_type": "single_target",
+        "damage_value": 40,
+        "crit_multiplier": 3,
+        "status_effects": {
+          "stun": {
+            "duration": 2,
+            "chance": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "Small Shield": {
+    "type": "weapon",
+    "base_damage": 10,
+    "skills": [
+      {
+        "name": "Shield Bash",
+        "effect_type": "single_target",
+        "damage_value": 20,
+        "crit_multiplier": 3,
+        "status_effects": {
+          "stun": {
+            "duration": 1,
+            "chance": 1.0
+          }
+        }
+      },
+      {
+        "name": "Defensive Stance",
+        "damage_value": 0,
+        "effect_type": "self_buff",
+        "status_effects": {
+          "defense_boost": {
+            "duration": 2,
+            "reduction_percent": 50
+          }
+        }
+      }
+    ]
+  },
+  "Hunter Bow": {
+    "type": "weapon",
+    "base_damage": 15,
+    "skills": [
+      {
+        "name": "Arrow Barrage",
+        "effect_type": "aoe",
+        "damage_value": 25,
+        "status_effects": {}
+      },
+      {
+        "name": "Snipe",
+        "effect_type": "single_target",
+        "damage_value": 40,
+        "crit_multiplier": 3,
+        "status_effects": {}
+      }
+    ]
+  }
+}
