@@ -1,17 +1,101 @@
 {
-    "Health_Potion": {
-        "type": "consumable",
-        "name": "Health Potion",
-        "effect": "restore_hp",
-        "amount": 50,
-        "credit": 10
+    "Potion": {
+      "name": "Health Potion",
+      "type": "consumable",
+      "effect": {
+        "type": "restore hp",
+        "description": "A simple potion that restores a bit of health."
+      },
+      "amount": 25,
+      "credit": "Restores 25 HP.",
+      "description": "A common potion that heals minor wounds."
     },
-
-    "Mana_Flask": {
-        "type": "consumable",
-        "name": "Mana Potion",
-        "effect": "restore_mana",
-        "amount": 40,
-        "credit": 35
+    "Spider Venom": {
+      "name": "Spider Venom",
+      "type": "loot",
+      "effect": {
+          "type": "none",
+          "description": "The potent venom from a Dark Spider. Might be useful for crafting."
+      },
+      "amount": 1,
+      "credit": "A vial of spider venom.",
+      "description": "Can be sold or used by an alchemist."
+    },
+    "Poison Fang": {
+      "name": "Poison Fang",
+      "type": "loot",
+       "effect": {
+          "type": "none",
+          "description": "A sharp fang, still dripping with poison."
+      },
+      "amount": 1,
+      "credit": "A poisonous fang.",
+      "description": "A trophy from a venomous creature."
+    },
+    "Wolf Fur": {
+      "name": "Wolf Fur",
+      "type": "loot",
+      "effect": {
+          "type": "none",
+          "description": "Thick fur from a Bone Wolf."
+      },
+      "amount": 1,
+      "credit": "A patch of wolf fur.",
+      "description": "Could be used for warm clothing."
+    },
+    "Bone Claw": {
+      "name": "Bone Claw",
+      "type": "loot",
+       "effect": {
+          "type": "none",
+          "description": "A sharp claw made of bone."
+      },
+      "amount": 1,
+      "credit": "A wickedly sharp bone claw.",
+      "description": "A dangerous trophy from a Bone Wolf."
+    },
+    "Shadow Cloak": {
+      "name": "Shadow Cloak",
+      "type": "loot",
+       "effect": {
+          "type": "none",
+          "description": "A cloak that seems to absorb light."
+      },
+      "amount": 1,
+      "credit": "A cloak woven from shadows.",
+      "description": "Favored by those who prefer stealth."
+    },
+    "Lurker Fang": {
+      "name": "Lurker Fang",
+      "type": "loot",
+      "effect": {
+          "type": "none",
+          "description": "A fang from a creature of the shadows."
+      },
+      "amount": 1,
+      "credit": "A shadowy fang.",
+      "description": "Pulses with faint dark energy."
+    },
+    "Night Essence": {
+      "name": "Night Essence",
+      "type": "loot",
+      "effect": {
+          "type": "none",
+          "description": "Concentrated essence of the night."
+      },
+      "amount": 1,
+      "credit": "A vial of pure darkness.",
+      "description": "Potent ingredient for dark magic or powerful potions."
+    },
+    "Orc Fang": {
+      "name": "Orc Fang",
+      "type": "loot",
+      "effect": {
+          "type": "none",
+          "description": "A rugged fang from an Orc."
+      },
+      "amount": 1,
+      "credit": "An Orc's fang.",
+      "description": "A common battle trophy."
     }
-}
+  }
