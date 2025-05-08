@@ -1,59 +1,116 @@
 {
-    "Dark Spider": {
-      "health": 120,
-      "attack": 20,
+  "Dark Spider": {
+    "name_display": "Dark Spider", 
+    "stats": {
+      "health": 100,
       "defense": 15,
-      "speed": 10,
-      "level": 3,
-      "traits": {
-        "Venomous": {
-          "effect": "Poison",
-          "duration": 3,
-          "damage_per_turn": 2
-        }
-      },
-      "loot_table": [
-        {"item": "Spider Venom", "chance": 0.5},
-        {"item": "Poison Fang", "chance": 0.2}
-      ]
+      "speed": 10
     },
-    "Bone Wolf": {
-      "health": 150,
-      "attack": 15,
-      "defense": 17,
-      "speed": 20,
-      "level": 5,
-      "traits": {
-        "Rage": {
-          "trigger": "low_health",
-          "boost": {
-            "attack": 10
+    "skills": [ 
+      {
+        "name": "Venom Bite",
+        "damage": 25,
+        "crit_multiplier": 1.5, 
+        "effects": [
+          {
+            "type": "poison", 
+            "duration": 3,
+            "damage_per_turn": 5, 
+            "chance": 0.7
           }
-        }
+        ]
       },
-      "loot_table": [
-        {"item": "Wolf Fur", "chance": 0.3},
-        {"item": "Bone Claw", "chance": 0.4}
-      ]
-    },
-  "Shadow Lurker": {
-  "health": 130,
-  "attack": 35,
-  "defense": 10,
-  "speed": 6,
-  "level": 4,
-  "traits": {
-    "Stealth": {
-      "effect": "Evade",
-      "duration": 2,
-      "chance_to_evade": 0.3
-    }
+      {
+        "name": "Web Shot",
+        "damage": 10,
+        "crit_multiplier": 1.2,
+        "effects": [
+          {
+            "type": "slow", 
+            "duration": 2,
+            "speed_reduction": 10, 
+            "chance": 0.5
+          }
+        ]
+      }
+    ],
+    "loot": [ 
+      { "item": "Spider Venom", "drop_chance": 0.6 },
+      { "item": "Poison Fang", "drop_chance": 0.3 }
+    ]
   },
-  "loot_table": [
-    {"item": "Shadow Cloak", "chance": 0.4},
-    {"item": "Lurker Fang", "chance": 0.3},
-    {"item": "Night Essence", "chance": 0.2}
-  ]
-}}
-  
-  
+  "Bone Wolf": {
+    "name_display": "Bone Wolf",
+    "stats": {
+      "health": 120,
+      "defense": 17,
+      "speed": 20
+    },
+    "skills": [
+      {
+        "name": "Savage Claw",
+        "damage": 30,
+        "crit_multiplier": 1.7,
+        "effects": [
+          {
+            "type": "rage",
+            "boost": {
+              "damage_increase": 15, 
+              "trigger_health_percentage_less_equal": 0.4
+            },
+            "chance": 1.0
+          }
+        ]
+      },
+      {
+          "name": "Howl",
+          "damage": 0,
+          "crit_multiplier": 1.0,
+          "effects": [
+              {
+                  "type": "attack debuff",
+                  "duration": 2,
+                  "reduction_amount": 5, 
+                  "chance": 0.6
+              }
+          ]
+      }
+    ],
+    "loot": [
+      { "item": "Wolf Fur", "drop_chance": 0.4 },
+      { "item": "Bone Claw", "drop_chance": 0.5 }
+    ]
+  },
+  "Shadow Lurker": {
+    "name_display": "Shadow Lurker",
+    "stats": {
+      "health": 50,
+      "defense": 10,
+      "speed": 25 
+    },
+    "skills": [
+      {
+        "name": "Shadow Strike",
+        "damage": 35,
+        "crit_multiplier": 2.0 
+      },
+      {
+        "name": "Evade", 
+        "damage": 0,
+        "effects": [ 
+          {
+            "type": "evasion_boost",
+            "duration": 2,
+            "evade_chance_bonus": 0.4,
+            "chance": 1.0 
+          }
+        ]
+      }
+    ],
+    "loot": [
+      { "item": "Shadow Cloak", "drop_chance": 0.4 },
+      { "item": "Lurker Fang", "drop_chance": 0.3 },
+      { "item": "Night Essence", "drop_chance": 0.2 }
+    ]
+  }
+}
