@@ -1,122 +1,133 @@
-
 import json
 import random
 
 
-class Enemy:
-    def __init__(self, name, health, attack, defense, speed, traits, level, loot_table=None):
+class Skill:
+    def __init__(self, name, description, damage, effects=None, crit_multiplier=1.0):
         self.name = name
-        self.max_health = health
+        self.description = description
+        self.damage = damage
+        self.effects = effects if effects else []
+        self.crit_multiplier = crit_multiplier
+
+    def __repr__(self):
+        return f"{self.name} (Damage: {self.damage})"
+
+class Enemy:
+    def __init__(self, name, health, defense, speed, loot, skills):
+        self.name = name
         self.health = health
-        self.attack = attack
+        self.max_health = health
         self.defense = defense
         self.speed = speed
-        self.traits = traits
-        self.level = level
+        self.loot = loot
+        self.skills = skills
         self.status_effects = {}
-        self.low_health_threshold = 0.3
-        self.loot_table = loot_table or []
+        self.evasion_boost = 0
+        self.evasion_duration = 0
 
-    def take_damage(self, damage):
-        self.health -= damage
-        if self.health < 0:
+    def take_damage(self, amount):
+        if self.evasion_duration > 0 and random.random() < self.evasion_boost:
+            print(f"{self.name} dodged the attack!")
+            return False
+
+        damage_taken = max(0, amount - self.defense)
+        self.health -= damage_taken
+        print(f"{self.name} took {damage_taken} damage. HP: {self.health}/{self.max_health}\n")
+
+        if self.health <= 0:
             self.health = 0
-        print(f"{self.name} takes {damage} damage! ({self.health}/{self.max_health} HP left)")
+            print(f"{self.name} has been defeated!")
 
-    def attack_target(self, target):
-        damage =  self.attack
-        print(f"{self.name} attacks {target.name} for {damage} damage.")
+        return True
+
+    def apply_status_effect(self, effect, target):
+        if random.random() > effect.get("chance", 1.0):
+            print(f"{effect['type'].capitalize()} failed to apply.")
+            return
+
+        effect_type = effect.get("type")
+        duration = effect.get("duration", 1)
+
+        if effect_type == "poison":
+            target.status_effects["poison"] = {
+                "duration": duration,
+                "damage_per_turn": effect.get("damage_per_turn", 0)
+            }
+            print(f"{target.name} is poisoned!")
+
+        elif effect_type == "slow":
+            target.status_effects["slow"] = {
+                "duration": duration,
+                "speed_reduction": effect.get("speed_reduction", 0)
+            }
+            print(f"{target.name} is slowed!")
+
+        elif effect_type == "attack debuff":
+            target.status_effects["attack debuff"] = {
+                "duration": duration,
+                "reduction_amount": effect.get("reduction_amount", 0)
+            }
+            print(f"{target.name}'s attack is weakened!")
+
+        elif effect_type == "evasion_boost":
+            self.evasion_boost = effect.get("evade_chance_bonus", 0)
+            self.evasion_duration = duration
+            print(f"{self.name} gains an evasion boost!")
+
+    def use_skill(self, target):
+        if not self.skills:
+            print(f"{self.name} has no skills!")
+            return
+
+        skill = random.choice(self.skills)
+        print(f"{self.name} uses {skill.name} on {target.name}!")
+
+        is_crit = random.random() < 0.1
+        damage = int(skill.damage * skill.crit_multiplier) if is_crit else skill.damage
+
+        if "evade" in target.status_effects:
+            print(f"{target.name} evades the attack due to an active effect!")
+            del target.status_effects["evade"] # Remove the evade effect after it's used
+            return
+
+        if is_crit:
+            print("Critical hit!")
+
         target.take_damage(damage)
-        self.apply_traits(target,damage)
-        return damage
 
-    def apply_traits(self, target, damage):
-        for trait_name, trait_data in self.traits.items():
-            if trait_name == "Venomous":
-                # Apply poison effect with a 50% chance
-                if random.random() < 0.5:
-                    target.status_effects["poison"] = {
-                        "duration": trait_data["duration"],
-                        "damage_per_turn": trait_data["damage_per_turn"]
-                    }
-                    print(f"{self.name}'s venom poisons {target.name}!")
-                    print(f"{target.name} takes {damage} damage per {trait_data['duration']} turns!")
-        
+        for effect in skill.effects:
+            self.apply_status_effect(effect, target)
 
-            elif trait_name == "Rage":
-                # Apply attack boost if health is low
-                if self.health <= 0.3 * self.max_health:
-                    boost = trait_data.get("boost", {})
-                    attack_boost = boost.get("attack", 0)
-                    self.attack += attack_boost
-                    print(f"{self.name} enters a rage and gains +{attack_boost} attack!")
+    def process_status_effects(self):
 
-            elif trait_name == "Stealth":
-                # Chance to evade
-                if random.random() < trait_data.get("chance_to_evade", 0):
-                    self.status_effects["evade"] = {
-                        "duration": trait_data.get("duration", 1)
-                    }
-                    print(f"{self.name} uses stealth and becomes harder to hit!")
-                else:
-                    print(f"{self.name} failed to use stealth.")
+        if self.evasion_duration > 0:
+            self.evasion_duration -= 1
+            if self.evasion_duration == 0:
+                print(f"{self.name}'s evasion boost wore off.")
+                self.evasion_boost = 0
 
-    def apply_status_effects(self,damage):
-        if "poison" in self.status_effects:
-            poison_effect = self.status_effects["poison"]
-            poison_damage = poison_effect["damage_per_turn"]
-            print(f"{self.name} suffers {poison_damage} poison damage!")
-            self.health -= poison_damage
-            if self.health < 0:
-                self.health = 0
-
-
-            # Reduce poison duration each turn
-            poison_effect["duration"] -= 1
-            if poison_effect["duration"] <= 0:
-                print(f"{self.name} is no longer poisoned.")
-                del self.status_effects["poison"]  
-                
-
-        if "evade" in self.status_effects:
-            evade_effect = self.status_effects["evade"]
-            print(f"{self.name} is harder to hit due to stealth! (Duration: {evade_effect['duration']})")
-
-            # Reduce evade duration each turn
-            evade_effect["duration"] -= 1
-            if evade_effect["duration"] <= 0:
-                del self.status_effects["evade"]  
-                print(f"{self.name}'s stealth effect has worn off.")
-
-    
-    def drop_loot(self):
-        dropped = []
-        for loot in self.loot_table:
-            if random.random() < loot["chance"]:
-                dropped.append(loot["item"])
-        return dropped
-    
-    def calculate_xp(self, player_level):
-        base_xp = 50
-        level_diff = self.level / player_level
-        random_multiplier = random.uniform(0.8, 1.2)
-        xp = int(base_xp * level_diff * random_multiplier)
-        return max(10, xp)
-
-def load_enemy():
-    with open("enemies.json", 'r') as f:
-        data = json.load(f)
-
+def load_enemies_from_json():
     enemies = {}
-    for name, stats in data.items():
-        enemies[name] = Enemy(
-            name=name,
-            health=stats["health"],
-            attack=stats["attack"],
-            defense=stats["defense"],
-            speed=stats["speed"],
-            level=stats["level"],
-            traits=stats.get("traits", {}),
-            loot_table=stats.get("loot_table", [])
-        )
+    try:
+        with open('enemies.json', 'r') as f:
+            data = json.load(f)
+        for key, val in data.items():
+            name = val.get("name_display", key)
+            stats = val["stats"]
+            health = stats.get("health", 100)
+            defense = stats.get("defense", 0)
+            speed = stats.get("speed", 10)
+            loot = val.get("loot", [])
+            skills = [Skill(**{
+                'name': s.get("name"),
+                'description': s.get("description", ""),
+                'damage': s.get("damage", 0),
+                'effects': s.get("effects", []),
+                'crit_multiplier': s.get("crit_multiplier", 1.0)
+            }) for s in val.get("skills", [])]
+            enemies[key] = Enemy(name, health, defense, speed, loot, skills)
+    except Exception as e:
+        print(f"Failed to load enemies: {e}")
     return enemies
+
